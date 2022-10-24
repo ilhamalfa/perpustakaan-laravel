@@ -38,8 +38,22 @@ class bukuController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $file = $request->file('cover')->store('img');
+
+        // Memasukkan Data Yang Telah divalidasi
+        buku::create([
+            'penulis' => $request['nama'],
+            'tahun' => $request['tahun'],
+            'judul' => $request['judul'],
+            'kota' => $request['kota'],
+            'penerbit' => $request['penerbit'],
+            'cover' => $file,
+            'sinopsis' => $request['sinopsis'],
+            'stok' => $request['stok']
+        ]);
+
+        return redirect('buku')->with('success', 'Data '. $request->nama .' Berhasil Diinputkan');
     }
 
     /**
